@@ -1,0 +1,4 @@
+class NES{
+    public:
+        NES();
+};
