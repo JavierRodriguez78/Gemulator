@@ -2,6 +2,7 @@
 #include "imgui.h"
 #include <iostream>
 
+
 namespace Gemunin{
     namespace Editor{
         namespace Gui{
@@ -9,22 +10,12 @@ namespace Gemunin{
                 printf("Iniciando Dialog Log\n");
                 eventManager.subscribe("LogEvent", [this](const Event& event){
                     const LogEvent& logEvent =static_cast<const LogEvent&>(event);
-                    AddLog(logEvent.getMessage());
+                    AddLog(logEvent.getMessage(), logEvent.getLevel());
                 });
             };
             
-            void DialogLog::Show(bool *open){
-                if (*open) {
-                    ImGui::Begin("Console Logs", open);
-                    if (ImGui::Button("Close")) {
-                        *open = false;
-                    }
-                ImGui::End();
-                }
-            }
-            
-            void DialogLog::AddLog(const std::string& message){
-                logs.push_back(message);
+            void DialogLog::AddLog(const std::string& message, Level level){
+                logs.push_back({message, level});
             }
 
             void DialogLog::Clear(){
@@ -51,9 +42,15 @@ namespace Gemunin{
                 }
            
                 for (const auto& log : logs) {
-                    ImGui::TextUnformatted(log.c_str());
+                    ImVec4 color;
+                    switch (log.level) {
+                        case Gemunin::Core::Logs::Level::INFO: color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); break;
+                        case Gemunin::Core::Logs::Level::WARNING: color = ImVec4(1.0f, 1.0f, 0.0f, 1.0f); break;
+                        case Gemunin::Core::Logs::Level::ERROR:   color = ImVec4(1.0f, 0.0f, 0.0f, 1.0f); break;
+                    }
+                    ImGui::TextColored(color, "%s", log.message.c_str());
                 }
-
+            
                 if (autoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY()) {
                     ImGui::SetScrollHereY(1.0f);
                 }

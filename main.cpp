@@ -45,7 +45,9 @@ int main(int argc, char* argv[]) {
     bool show_dialog = true;
     DialogLog dialog(eventManager);
     Log log(eventManager);
-    log.AddLog("INICIANDO EL SISTEMA");
+    log.AddLog("INICIANDO EL SISTEMA",Gemunin::Core::Logs::Level::INFO);
+    log.AddLog("EJEMPLO DE WARN",Gemunin::Core::Logs::Level::WARNING);
+    log.AddLog("EJEMPLO DE ERROR",Gemunin::Core::Logs::Level::ERROR);
     // Main loop
     bool done = false;
     while (!done) {

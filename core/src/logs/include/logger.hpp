@@ -2,28 +2,21 @@
 #define LOGGER_H
 #include "../../events/include/eventManager.hpp"
 #include "logEvent.hpp"
+#include "logLevel.hpp"
 using namespace Gemunin::Core::Events;
 
 namespace Gemunin{
     namespace Core{
         namespace Logs{
-            enum Level{
-                Info,
-                Error
-            };
-
             class Log{
                 public:
                     Log(EventManager& eventmanager);
                     ~Log();
-                    Level getLevel();
-                    Log& setLevel(Level level);
                     void clear();
-                    void AddLog(const std::string& message);
-                    void Draw(const char* title, bool* p_open = nullptr);
+                    void AddLog(const std::string& message, Level level = Gemunin::Core::Logs::Level::INFO);
                 private:
-                    Level logLevel;
                     EventManager& eventManager;
+                    std::string getCurrentTime();
             };
         }
     }
