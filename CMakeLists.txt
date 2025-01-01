@@ -40,11 +40,16 @@ set(CORE_FILES
     ${CORE_DIR}/logs/logEvent.cpp
     ${CORE_DIR}/logs/logger.cpp)
 
+#Ruta a los archivos del emulador nes
+set(NES_DIR ${CMAKE_SOURCE_DIR}/nes/src)
+set(NES_FILES
+    ${NES_DIR}/cartridge/cartridge.cpp)
+
 # Incluir los directorios de cabeceras de ImGui y gl3w
-include_directories(${IMGUI_DIR} ${IMGUI_DIR}/backends ${GL3W_DIR} ${EDITOR_DIR} ${CORE_DIR})
+include_directories(${IMGUI_DIR} ${IMGUI_DIR}/backends ${GL3W_DIR} ${EDITOR_DIR} ${CORE_DIR} ${NES_DIR})
 
 # Añadir los archivos fuente de tu proyecto
-add_executable(Gemunin main.cpp ${IMGUI_FILES} ${GL3W_FILES} ${EDITOR_FILES} ${CORE_FILES})
+add_executable(Gemunin main.cpp ${IMGUI_FILES} ${GL3W_FILES} ${EDITOR_FILES} ${CORE_FILES} ${NES_FILES})
 
 # Enlazar SDL2 y OpenGL a tu proyecto
 target_link_libraries(Gemunin ${SDL2_LIBRARIES} -lGL)
