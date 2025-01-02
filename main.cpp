@@ -51,11 +51,11 @@ int main(int argc, char* argv[]) {
     log.AddLog("EJEMPLO DE WARN",Gemunin::Core::Logs::Level::WARNING);
     log.AddLog("EJEMPLO DE ERROR",Gemunin::Core::Logs::Level::ERROR);
 
-    Nes nes(eventManager);
+    Nes nes(eventManager, log);
     nes.LoadRom("./nestest.nes");
-    //Rom rom(log);
-    //rom.loadRom("./nestest.nes");
-
+    nes.Reset();
+    nes.Start();
+    
     // Main loop
     bool done = false;
     while (!done) {
