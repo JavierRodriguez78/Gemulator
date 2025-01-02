@@ -6,12 +6,12 @@
 #include "editor/src/gui/include/dialogLog.hpp"
 #include "core/src/logs/include/logger.hpp"
 #include "core/src/events/include/eventManager.hpp"
-#include "nes/src/cartridge/include/cartridge.hpp"
+#include "nes/src/core/include/nes.hpp"
 
 using namespace Gemunin::Editor::Gui;
 using namespace Gemunin::Core::Logs;
 using namespace Gemunin::Core::Events;
-using namespace Gemunin::Nes::Cartridge;
+using namespace Gemunin::Nes8::Core;
 
 int main(int argc, char* argv[]) {
     // Inicializar SDL
@@ -51,8 +51,10 @@ int main(int argc, char* argv[]) {
     log.AddLog("EJEMPLO DE WARN",Gemunin::Core::Logs::Level::WARNING);
     log.AddLog("EJEMPLO DE ERROR",Gemunin::Core::Logs::Level::ERROR);
 
-    Rom rom(log);
-    rom.loadRom("./nestest.nes");
+    Nes nes(eventManager);
+    nes.LoadRom("./nestest.nes");
+    //Rom rom(log);
+    //rom.loadRom("./nestest.nes");
 
     // Main loop
     bool done = false;

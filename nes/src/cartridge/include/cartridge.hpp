@@ -12,7 +12,7 @@ using namespace Gemunin::Core::Events;
 using namespace Gemunin::Core::Logs;
 
 namespace Gemunin{
-    namespace Nes{
+    namespace Nes8{
         namespace Cartridge{
             class Rom{
                 public:

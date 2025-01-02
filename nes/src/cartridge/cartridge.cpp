@@ -4,7 +4,7 @@
 using namespace Gemunin::Core::Logs;
 
 namespace Gemunin{
-    namespace Nes{
+    namespace Nes8{
         namespace Cartridge{
                 bool Rom::loadRom(const std::string& filename) {
                     
@@ -43,6 +43,7 @@ namespace Gemunin{
                         log.AddLog("Error en la lecutra de la PRG ROM.", Gemunin::Core::Logs::Level::ERROR);
                         return false;
                     }
+                    log.AddLog("PRG ROM size: " + std::to_string(header.prgRomChunks) + " x 16KB",Gemunin::Core::Logs::Level::INFO);
 
                      // Leer CHR ROM
                     CHR_ROM.resize(chrSize);
@@ -51,6 +52,13 @@ namespace Gemunin{
                         log.AddLog("Error en la lecutra de CHR ROM.", Gemunin::Core::Logs::Level::ERROR);
                         return false;
                     }
+                    
+                    log.AddLog("CHR ROM size: " + std::to_string(header.chrRomChunks) + " x 8KB", Gemunin::Core::Logs::Level::INFO);
+
+                    //Carga completa
+                    log.AddLog("ROM loaded successfully!",Gemunin::Core::Logs::Level::INFO);
+       
+     
 
 
                     return true;

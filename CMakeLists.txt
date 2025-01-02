@@ -43,6 +43,7 @@ set(CORE_FILES
 #Ruta a los archivos del emulador nes
 set(NES_DIR ${CMAKE_SOURCE_DIR}/nes/src)
 set(NES_FILES
+    ${NES_DIR}/core/nes.cpp
     ${NES_DIR}/cartridge/cartridge.cpp)
 
 # Incluir los directorios de cabeceras de ImGui y gl3w

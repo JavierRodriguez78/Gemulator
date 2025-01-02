@@ -6,7 +6,7 @@
 #include <cstdint>
 
 namespace Gemunin{
-    namespace Nes{
+    namespace Nes8{
         namespace Cartridge{
             struct iNesHeader{
                 char signature[4];      //Firma Nes [NES^Z] string
