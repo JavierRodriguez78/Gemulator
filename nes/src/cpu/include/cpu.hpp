@@ -2,6 +2,8 @@
 #define CPU_H
 #include "bus.hpp"
 #include "interruptType.hpp"
+#include "addrMode2.hpp"
+#include "operation0.hpp"
 
 namespace Gemunin{
     namespace Nes8{
@@ -23,9 +25,16 @@ namespace Gemunin{
                     bool pendingNMI;
                     bool pendingIRQ;
                     
+                    int skipCycles;
+                    int cycles;
+
                     //FUNCTIONS//
                     void setZeroNegative(uint8_t byte);
                     void interrupt(InterruptType interrupt);
+                    bool executeType0(uint8_t opCode);
+                    uint16_t readAddress(uint16_t addr);
+                    //If a and b are in different pages, increases the m_SkipCycles by inc
+                    void setPageCrossed(uint16_t a, uint16_t b, int inc);
             };
         }
     }

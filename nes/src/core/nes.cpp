@@ -34,6 +34,7 @@ namespace Gemunin{
                 log.AddLog("Iniciando el Bus", Gemunin::Core::Logs::Level::INFO);
                 Bus bus;
                 this->bus = bus;
+                log.AddLog("Iniciando la CPU", Gemunin::Core::Logs::Level::INFO);
                 CPU cpu(bus);
             };
         }
