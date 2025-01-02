@@ -44,6 +44,8 @@ set(CORE_FILES
 set(NES_DIR ${CMAKE_SOURCE_DIR}/nes/src)
 set(NES_FILES
     ${NES_DIR}/core/nes.cpp
+    ${NES_DIR}/cpu/bus.cpp
+    ${NES_DIR}/cpu/cpu.cpp
     ${NES_DIR}/cartridge/cartridge.cpp)
 
 # Incluir los directorios de cabeceras de ImGui y gl3w
