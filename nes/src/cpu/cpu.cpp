@@ -89,6 +89,7 @@ namespace Gemunin{
                         return false;                        
                     };
                 };
+                return false;
             };
 
             uint16_t CPU::readAddress(uint16_t address){

@@ -1,12 +1,13 @@
 #include "include/nes.hpp"
 #include "../cartridge/include/cartridge.hpp"
 #include "../../core/src/logs/include/logger.hpp"
-#include "../cpu/include/bus.hpp"
+#include "../bus/include/bus.hpp"
 #include "../cpu/include/cpu.hpp"
 
 using namespace Gemunin::Nes8::Cartridge;
 using namespace Gemunin::Nes8::Cpu;
 using namespace Gemunin::Core::Logs;
+using namespace Gemunin::Nes8::BusComm;
 
 
 namespace Gemunin{

@@ -6,7 +6,7 @@
 
 namespace Gemunin{
     namespace Nes8{
-        namespace Cpu{
+        namespace BusComm{
             class Bus{
                 public:
                     Bus();

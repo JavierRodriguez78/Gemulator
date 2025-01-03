@@ -2,36 +2,23 @@
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_opengl3.h"
-#include "editor/libs/gl3w/gl3w.h"
+#include "core/libs/gl3w/gl3w.h"
 #include "editor/src/gui/include/dialogLog.hpp"
 #include "core/src/logs/include/logger.hpp"
 #include "core/src/events/include/eventManager.hpp"
+#include "core/src/graphics/include/graphic.hpp"
 #include "nes/src/core/include/nes.hpp"
 
+using namespace Gemunin::Core::Graphics;
 using namespace Gemunin::Editor::Gui;
 using namespace Gemunin::Core::Logs;
 using namespace Gemunin::Core::Events;
 using namespace Gemunin::Nes8::Core;
 
 int main(int argc, char* argv[]) {
-    // Inicializar SDL
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
-        printf("Error: %s\n", SDL_GetError());
-        return -1;
-    }
-
-    // Crear ventana SDL con contexto OpenGL
-    SDL_Window* window = SDL_CreateWindow("Gemunin", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-    SDL_MaximizeWindow(window);
-    SDL_GLContext gl_context = SDL_GL_CreateContext(window);
-    SDL_GL_MakeCurrent(window, gl_context);
-    SDL_GL_SetSwapInterval(1); // Enable vsync
-
-    // Inicializar gl3w
-    if (gl3wInit()) {
-        printf("Failed to initialize OpenGL loader!\n");
-        return -1;
-    }
+    
+    //Inicializar Graficos
+    Graphic graphic;
 
     // Configurar ImGui
     IMGUI_CHECKVERSION();
@@ -40,7 +27,7 @@ int main(int argc, char* argv[]) {
     ImGui::StyleColorsDark();
 
     // Configurar backends de ImGui
-    ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
+    ImGui_ImplSDL2_InitForOpenGL(graphic.getWindow(), graphic.getGLContext());
     ImGui_ImplOpenGL3_Init("#version 130");
 
     EventManager eventManager;
@@ -77,15 +64,12 @@ int main(int argc, char* argv[]) {
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        SDL_GL_SwapWindow(window);
+        SDL_GL_SwapWindow(graphic.getWindow());
     }
 
     // Limpiar
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
-    SDL_GL_DeleteContext(gl_context);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
     return 0;
 }

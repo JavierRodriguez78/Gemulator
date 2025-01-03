@@ -1,9 +1,11 @@
 #ifndef CPU_H
 #define CPU_H
-#include "bus.hpp"
+#include "../../bus/include/bus.hpp"
 #include "interruptType.hpp"
 #include "addrMode2.hpp"
 #include "operation0.hpp"
+
+using namespace Gemunin::Nes8::BusComm;
 
 namespace Gemunin{
     namespace Nes8{

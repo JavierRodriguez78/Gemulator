@@ -24,7 +24,7 @@ set(IMGUI_FILES
 )
 
 # Ruta a los archivos de gl3w
-set(GL3W_DIR ${CMAKE_SOURCE_DIR}/editor/libs/gl3w)
+set(GL3W_DIR ${CMAKE_SOURCE_DIR}/core/libs/gl3w)
 set(GL3W_FILES
     ${GL3W_DIR}/gl3w.c)
 
@@ -38,13 +38,14 @@ set(CORE_DIR ${CMAKE_SOURCE_DIR}/core/src)
 set(CORE_FILES 
     ${CORE_DIR}/events/eventManager.cpp
     ${CORE_DIR}/logs/logEvent.cpp
-    ${CORE_DIR}/logs/logger.cpp)
+    ${CORE_DIR}/logs/logger.cpp
+    ${CORE_DIR}/graphics/graphic.cpp)
 
 #Ruta a los archivos del emulador nes
 set(NES_DIR ${CMAKE_SOURCE_DIR}/nes/src)
 set(NES_FILES
     ${NES_DIR}/core/nes.cpp
-    ${NES_DIR}/cpu/bus.cpp
+    ${NES_DIR}/bus/bus.cpp
     ${NES_DIR}/cpu/cpu.cpp
     ${NES_DIR}/cartridge/cartridge.cpp)
 

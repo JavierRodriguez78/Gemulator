@@ -2,7 +2,7 @@
 
 namespace Gemunin{
     namespace Nes8{
-        namespace Cpu{
+        namespace BusComm{
             Bus::Bus(){
                 //Inicializamos la memoria.
                 ram.fill(0);

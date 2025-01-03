@@ -3,11 +3,12 @@
 #include "../../core/src/events/include/eventManager.hpp"
 #include "../../core/src/logs/include/logger.hpp"
 #include "../../cpu/include/cpu.hpp"
-#include "../../cpu/include/bus.hpp"
+#include "../../bus/include/bus.hpp"
 
 using namespace Gemunin::Core::Events;
 using namespace Gemunin::Core::Logs;
 using namespace Gemunin::Nes8::Cpu;
+using namespace Gemunin::Nes8::BusComm;
 
 namespace Gemunin{
     namespace Nes8{
