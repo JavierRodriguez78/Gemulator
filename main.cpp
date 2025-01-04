@@ -3,11 +3,12 @@
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_opengl3.h"
 #include "core/libs/gl3w/gl3w.h"
+#include "editor/src/gui/include/mainWindow.hpp"
 #include "editor/src/gui/include/dialogLog.hpp"
+#include "editor/src/core/include/window.hpp"
 #include "core/src/logs/include/logger.hpp"
 #include "core/src/events/include/eventManager.hpp"
 #include "core/src/graphics/include/graphic.hpp"
-#include "editor/src/core/include/window.hpp"
 #include "nintendo/nes/src/core/include/nes.hpp"
 
 using namespace Gemunin::Core::Graphics;
@@ -30,10 +31,13 @@ int main(int argc, char* argv[]) {
     bool show_dialog = true;
     Log log(eventManager);
 
+    // Main Frame
+    MainWindow mainWindow;
 
     DialogLog dialog(eventManager);
-    Nes nes(eventManager, log);
 
+    //Iniciando Emulador de Nes    
+    Nes nes(eventManager, log);
     nes.LoadRom("./nestest.nes");
     nes.Reset();
     nes.Start();
@@ -48,23 +52,13 @@ int main(int argc, char* argv[]) {
                 done = true;
         }
         // Start the ImGui frame
-        ImGui_ImplOpenGL3_NewFrame();
+        mainWindow.Draw();
+       /* ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL2_NewFrame();
-        ImGui::NewFrame();
+        ImGui::NewFrame();*/
         dialog.Draw("Console Logs", &show_dialog);
         // Renderizar
-        ImGui::Render();
-        glViewport(0, 0, (int)window.getIo().DisplaySize.x, (int)window.getIo().DisplaySize.y);
-        glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        SDL_GL_SwapWindow(graphic.getWindow());
+        window.Render();
     }
-
-    // Limpiar
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplSDL2_Shutdown();
-    ImGui::DestroyContext();
     return 0;
 }

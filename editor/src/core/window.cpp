@@ -16,6 +16,21 @@ namespace Gemunin{
                 return io;
             };
 
+            void Window::Render(){
+                ImGui::Render();
+                glViewport(0, 0, (int)this->io.DisplaySize.x, (int)this->io.DisplaySize.y);
+                glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
+                glClear(GL_COLOR_BUFFER_BIT);
+                ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+                SDL_GL_SwapWindow(graphic.getWindow());
+            };
+
+            Window::~Window(){
+                ImGui_ImplOpenGL3_Shutdown();
+                ImGui_ImplSDL2_Shutdown();
+                ImGui::DestroyContext(); 
+            }
+
         }
         
     }

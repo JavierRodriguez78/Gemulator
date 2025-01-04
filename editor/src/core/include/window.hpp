@@ -14,6 +14,8 @@ namespace Gemunin{
                 public:
                     Window(Graphic& graphic);
                     ImGuiIO getIo();
+                    void Render();
+                    ~Window();
                 private:
                     Graphic& graphic;
                     ImGuiIO io;

@@ -31,6 +31,7 @@ set(GL3W_FILES
 #Ruta a los archivos del editor
 set(EDITOR_DIR ${CMAKE_SOURCE_DIR}/editor/src)
 set(EDITOR_FILES
+    ${EDITOR_DIR}/gui/mainWindow.cpp
     ${EDITOR_DIR}/gui/dialogLog.cpp
     ${EDITOR_DIR}/core/window.cpp)
 
