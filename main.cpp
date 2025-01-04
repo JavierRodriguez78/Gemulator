@@ -11,9 +11,9 @@
 #include "core/src/graphics/include/graphic.hpp"
 #include "nintendo/nes/src/core/include/nes.hpp"
 
-using namespace Gemunin::Core::Graphics;
 using namespace Gemunin::Editor::Gui;
 using namespace Gemunin::Editor::Core;
+using namespace Gemunin::Core::Graphics;
 using namespace Gemunin::Core::Logs;
 using namespace Gemunin::Core::Events;
 using namespace Gemunin::Nintendo::Nes::Core;
@@ -22,20 +22,30 @@ int main(int argc, char* argv[]) {
     
     //Inicializar Graficos
     Graphic graphic;
+    printf("Iniciando Gráficos\n");
 
     // Configurar ImGui
     Window window(graphic);
+    printf("Inicando Gestor Ventanas\n");
 
     // Iniciando EventManager
     EventManager eventManager;
-    bool show_dialog = true;
+    printf("Iniciando el Gestor de Eventos\n");
+
+    // Iniciando el Gestor de Logs.
     Log log(eventManager);
+    printf("Iniciando el Gestor de Logs\n");
 
     // Main Frame
-    MainWindow mainWindow;
-
-    DialogLog dialog(eventManager);
-
+    MainWindow mainWindow(eventManager);
+   
+    printf("Iniciando la ventana Principal\n");
+    
+    //DialogLog
+    DialogLog dialogLog(eventManager);
+    bool show_dialog = true;
+    
+        
     //Iniciando Emulador de Nes    
     Nes nes(eventManager, log);
     nes.LoadRom("./nestest.nes");
@@ -51,12 +61,8 @@ int main(int argc, char* argv[]) {
             if (event.type == SDL_QUIT)
                 done = true;
         }
-        // Start the ImGui frame
         mainWindow.Draw();
-       /* ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplSDL2_NewFrame();
-        ImGui::NewFrame();*/
-        dialog.Draw("Console Logs", &show_dialog);
+        dialogLog.Draw("Console Logs", &show_dialog);
         // Renderizar
         window.Render();
     }

@@ -16,6 +16,10 @@ namespace Gemunin{
                     if( address >= 0x8000) return pgr_rom[address - 0x8000];
                     return 0;
                 };
+
+                void Bus::write(uint16_t addr, uint8_t value){
+                
+                }
             }
         }
     }

@@ -55,6 +55,136 @@ namespace Gemunin{
                     };
                 };
 
+                void CPU::skipPageCrossCycle(uint16_t a, uint16_t b)
+                {
+                    //Page is determined by the high byte
+                    if ((a & 0xff00) != (b & 0xff00))
+                    skipCycles += 1;
+                };
+                
+                void CPU::setZN(uint8_t value)
+                {   
+                    fZ = !value;
+                    fN = value & 0x80;
+                };
+
+                bool CPU::executeType1(uint8_t opCode){
+                    uint16_t location = 0; //Location of the operand, could be in RAM
+                    auto op = static_cast<Operation1>((opCode & OperationMask) >> OperationShift);
+                    switch (static_cast<AddrMode1>(
+                          (opCode & AddrModeMask) >> AddrModeShift))
+                    {
+                    
+                        case AddrMode1::IndexedIndirectX:
+                            {
+                                uint8_t zero_addr = rX + bus.read(rPC++);
+                                //Addresses wrap in zero page mode, thus pass through a mask
+                                location = bus.read(zero_addr & 0xff) | bus.read((zero_addr + 1) & 0xff) << 8;
+                            }
+                            break;
+                        case AddrMode1::ZeroPage:
+                            location = bus.read(rPC++);
+                            break;
+                        case AddrMode1::Immediate:
+                            location = rPC++;
+                            break;
+                        case AddrMode1::Absolute:
+                            location = readAddress(rPC);
+                            rPC += 2;
+                            break;
+                        case AddrMode1::IndirectY:
+                            {
+                                uint8_t zero_addr = bus.read(rPC++);
+                                location = bus.read(zero_addr & 0xff) |bus.read((zero_addr + 1) & 0xff) << 8;
+                                if (op != Operation1::STA)
+                                    skipPageCrossCycle(location, location + rY);
+                                    location += rY;
+                            }
+                            break;
+                        case AddrMode1::IndexedX:
+                            // Address wraps around in the zero page
+                            location = (bus.read(rPC++) + rX) & 0xff;
+                            break;
+                        case AddrMode1::AbsoluteY:
+                            location = readAddress(rPC);
+                            rPC += 2;
+                            if (op != Operation1::STA)
+                                skipPageCrossCycle(location, location + rY);
+                                location += rY;
+                            break;
+                        case AddrMode1::AbsoluteX:
+                            location = readAddress(rPC);
+                            rPC += 2;
+                            if (op != Operation1::STA)
+                                skipPageCrossCycle(location, location + rX);
+                                location += rX;
+                            break;
+                        default:
+                            return false;
+                    };
+                    
+                    switch (op)
+                    {
+                        case Operation1::ORA:
+                            rA |= bus.read(location);
+                            setZN(rA);
+                            break;
+                        case Operation1::AND:
+                            rA &= bus.read(location);
+                            setZN(rA);
+                            break;
+                        case Operation1::EOR:
+                            rA ^= bus.read(location);
+                            setZN(rA);
+                            break;
+                        case Operation1::ADC:
+                            {
+                                uint8_t operand = bus.read(location);
+                                std::uint16_t sum = rA + operand + fC;
+                                //Carry forward or UNSIGNED overflow
+                                fC = sum & 0x100;
+                                //SIGNED overflow, would only happen if the sign of sum is
+                                //different from BOTH the operands
+                                fV = (rA ^ sum) & (operand ^ sum) & 0x80;
+                                rA = static_cast<uint8_t>(sum);
+                                setZN(rA);
+                            }
+                            break;
+                        case Operation1::STA:
+                            bus.write(location, rA);
+                            break;
+                        case Operation1::LDA:
+                            rA = bus.read(location);
+                            setZN(rA);
+                            break;
+                        case Operation1::SBC:
+                            {
+                                //High carry means "no borrow", thus negate and subtract
+                                std::uint16_t subtrahend = bus.read(location),
+                                diff = rA - subtrahend - !fC;
+                                //if the ninth bit is 1, the resulting number is negative => borrow => low carry
+                                fC = !(diff & 0x100);
+                                //Same as ADC, except instead of the subtrahend,
+                                //substitute with it's one complement
+                                fV = (rA ^ diff) & (~subtrahend ^ diff) & 0x80;
+                                rA = diff;
+                                setZN(diff);
+                            }
+                            break;
+                        case Operation1::CMP:
+                            {
+                                std::uint16_t diff = rA - bus.read(location);
+                                fC = !(diff & 0x100);
+                                setZN(diff);
+                            }
+                            break;
+                        default:
+                            return false;
+                        }
+                        return true;
+                    };
+                
+
                 bool CPU::executeType0(uint8_t opCode){
                     if ((opCode & InstructionModeMask) == 0x0)
                     {

@@ -20,7 +20,7 @@ namespace Gemunin{
                     void Clear();
                     void AddLog(const std::string& message, Level level);
                     void AddText(const char * text);
-                    void Draw(const char* title, bool* p_open=nullptr);
+                    void Draw(const char* title, bool* p_open);
                 private:
                     struct LogEntry{
                         std::string message;
