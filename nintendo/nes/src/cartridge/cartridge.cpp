@@ -4,8 +4,9 @@
 using namespace Gemunin::Core::Logs;
 
 namespace Gemunin{
-    namespace Nes8{
-        namespace Cartridge{
+    namespace Nintendo{
+        namespace Nes{
+            namespace Cartridge{
                 bool Rom::loadRom(const std::string& filename) {
                     
                     //Carga del fichero.
@@ -63,7 +64,7 @@ namespace Gemunin{
 
                     return true;
                 };
-
+            }
         }
     }
 }

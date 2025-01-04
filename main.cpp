@@ -7,13 +7,15 @@
 #include "core/src/logs/include/logger.hpp"
 #include "core/src/events/include/eventManager.hpp"
 #include "core/src/graphics/include/graphic.hpp"
-#include "nes/src/core/include/nes.hpp"
+#include "editor/src/core/include/window.hpp"
+#include "nintendo/nes/src/core/include/nes.hpp"
 
 using namespace Gemunin::Core::Graphics;
 using namespace Gemunin::Editor::Gui;
+using namespace Gemunin::Editor::Core;
 using namespace Gemunin::Core::Logs;
 using namespace Gemunin::Core::Events;
-using namespace Gemunin::Nes8::Core;
+using namespace Gemunin::Nintendo::Nes::Core;
 
 int main(int argc, char* argv[]) {
     
@@ -21,24 +23,17 @@ int main(int argc, char* argv[]) {
     Graphic graphic;
 
     // Configurar ImGui
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-    ImGui::StyleColorsDark();
+    Window window(graphic);
 
-    // Configurar backends de ImGui
-    ImGui_ImplSDL2_InitForOpenGL(graphic.getWindow(), graphic.getGLContext());
-    ImGui_ImplOpenGL3_Init("#version 130");
-
+    // Iniciando EventManager
     EventManager eventManager;
     bool show_dialog = true;
-    DialogLog dialog(eventManager);
     Log log(eventManager);
-    log.AddLog("INICIANDO EL SISTEMA",Gemunin::Core::Logs::Level::INFO);
-    log.AddLog("EJEMPLO DE WARN",Gemunin::Core::Logs::Level::WARNING);
-    log.AddLog("EJEMPLO DE ERROR",Gemunin::Core::Logs::Level::ERROR);
 
+
+    DialogLog dialog(eventManager);
     Nes nes(eventManager, log);
+
     nes.LoadRom("./nestest.nes");
     nes.Reset();
     nes.Start();
@@ -59,7 +54,7 @@ int main(int argc, char* argv[]) {
         dialog.Draw("Console Logs", &show_dialog);
         // Renderizar
         ImGui::Render();
-        glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+        glViewport(0, 0, (int)window.getIo().DisplaySize.x, (int)window.getIo().DisplaySize.y);
         glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

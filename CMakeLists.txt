@@ -29,9 +29,10 @@ set(GL3W_FILES
     ${GL3W_DIR}/gl3w.c)
 
 #Ruta a los archivos del editor
-set(EDITOR_DIR ${CMAKE_SOURCE_DIR}/editor/src/gui)
+set(EDITOR_DIR ${CMAKE_SOURCE_DIR}/editor/src)
 set(EDITOR_FILES
-    ${EDITOR_DIR}/dialogLog.cpp)
+    ${EDITOR_DIR}/gui/dialogLog.cpp
+    ${EDITOR_DIR}/core/window.cpp)
 
 #Ruta a los archivos del core
 set(CORE_DIR ${CMAKE_SOURCE_DIR}/core/src)
@@ -42,7 +43,7 @@ set(CORE_FILES
     ${CORE_DIR}/graphics/graphic.cpp)
 
 #Ruta a los archivos del emulador nes
-set(NES_DIR ${CMAKE_SOURCE_DIR}/nes/src)
+set(NES_DIR ${CMAKE_SOURCE_DIR}/nintendo/nes/src)
 set(NES_FILES
     ${NES_DIR}/core/nes.cpp
     ${NES_DIR}/bus/bus.cpp
