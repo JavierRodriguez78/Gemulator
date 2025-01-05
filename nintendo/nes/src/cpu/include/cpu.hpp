@@ -6,6 +6,7 @@
 #include "addrMode2.hpp"
 #include "operation0.hpp"
 #include "operation1.hpp"
+#include "operation2.hpp"
 
 using namespace Gemunin::Nintendo::Nes::Comm;
 
@@ -37,7 +38,8 @@ namespace Gemunin{
                         void setZeroNegative(uint8_t byte);
                         void interrupt(InterruptType interrupt);
                         bool executeType0(uint8_t opCode);
-                        bool executeType1(uint8_t opcode);
+                        bool executeType1(uint8_t opCode);
+                        bool executeType2(uint8_t opCode);
                         uint16_t readAddress(uint16_t addr);
                         //If a and b are in different pages, increases the m_SkipCycles by inc
                         void setPageCrossed(uint16_t a, uint16_t b, int inc);

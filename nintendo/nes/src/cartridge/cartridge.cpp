@@ -64,6 +64,12 @@ namespace Gemunin{
 
                     return true;
                 };
+
+                const std::vector<uint8_t>& Rom::getROM()
+                {
+                    log.AddLog("PRG_ROM returnes", Gemunin::Core::Logs::Level::INFO);
+                    return PRG_ROM;
+                }
             }
         }
     }

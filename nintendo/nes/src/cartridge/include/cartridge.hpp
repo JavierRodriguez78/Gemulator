@@ -19,6 +19,7 @@ namespace Gemunin{
                     public:
                         Rom(Log& log): log(log){};
                         bool loadRom(const std::string& filename);
+                        const std::vector<uint8_t>& getROM();
                     private:
                         Log& log;
                         std::vector<uint8_t> PRG_ROM;

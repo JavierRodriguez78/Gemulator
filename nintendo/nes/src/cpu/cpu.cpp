@@ -68,6 +68,131 @@ namespace Gemunin{
                     fN = value & 0x80;
                 };
 
+
+                bool CPU::executeType2(uint8_t opCode){
+                    if ((opCode & InstructionModeMask) == 2)
+                    {
+                        uint16_t location = 0;
+                        auto op = static_cast<Operation2>((opCode & OperationMask) >> OperationShift);
+                        auto addr_mode =static_cast<AddrMode2>((opCode & AddrModeMask) >> AddrModeShift);
+                        switch (addr_mode)
+                        {
+                            case AddrMode2::Inmediate_:
+                                location = rPC++;
+                                break;
+                            case AddrMode2::ZeroPage_:
+                                location = bus.read(rPC++);
+                                break;
+                            case AddrMode2::Accumulator:
+                                break;
+                            case AddrMode2::Absolute_:
+                                location = readAddress(rPC);
+                                rPC += 2;
+                                break;
+                            case AddrMode2::Indexed:
+                                {
+                                    location = bus.read(rPC++);
+                                    uint8_t index;
+                                    if (op == Operation2::LDX || op == Operation2::STX)
+                                        index = rY;
+                                    else
+                                        index = rX;
+                                        //The mask wraps address around zero page
+                                        location = (location + index) & 0xff;
+                                }
+                                break;
+                            case AddrMode2::AbsoluteIndexed:
+                                {
+                                    location = readAddress(rPC);
+                                    rPC += 2;
+                                    uint8_t index;
+                                    if (op == Operation2::LDX || op == Operation2::STX)
+                                        index = rY;
+                                    else
+                                        index = rX;
+                                        skipPageCrossCycle(location, location + index);
+                                        location += index;
+                                }
+                                break;
+                            default:
+                                return false;
+                    }
+
+                    std::uint16_t operand = 0;
+                    switch (op)
+                    {       
+                        case Operation2::ASL:
+                        case Operation2::ROL:
+                            if (addr_mode == AddrMode2::Accumulator)
+                            {
+                                auto prevC = fC;
+                                fC = rA & 0x80;
+                                rA <<= 1;
+                                //If Rotating, set the bit-0 to the the previous carry
+                                rA = rA | (prevC && (op == Operation2::ROL));
+                                setZN(rA);
+                            }
+                            else
+                            {
+                                auto prevC = fC;
+                                operand = bus.read(location);
+                                fC = operand & 0x80;
+                                operand = operand << 1 | (prevC && (op == Operation2::ROL));
+                                setZN(operand);
+                                bus.write(location, operand);
+                            }
+                            break;
+                        case Operation2::LSR:
+                        case Operation2::ROR:
+                            if (addr_mode == AddrMode2::Accumulator)
+                            {
+                                auto prevC = fC;
+                                fC = rA & 1;
+                                rA >>= 1;
+                                //If Rotating, set the bit-7 to the previous carry
+                                 rA = rA | (prevC && (op == Operation2::ROR)) << 7;
+                                setZN(rA);
+                            }
+                            else
+                            {
+                                auto prevC = fC;
+                                operand = bus.read(location);
+                                fC = operand & 1;
+                                operand = operand >> 1 | (prevC && (op == Operation2::ROR)) << 7;
+                                setZN(operand);
+                                bus.write(location, operand);
+                            }
+                            break;
+                        case Operation2::STX:
+                            bus.write(location, rX);
+                            break;
+                        case Operation2::LDX:
+                            rX = bus.read(location);
+                            setZN(rX);
+                            break;
+                        case Operation2::DEC:
+                        {
+                            auto tmp = bus.read(location) - 1;
+                            setZN(tmp);
+                            bus.write(location, tmp);
+                        }
+                        break;
+                        case Operation2::INC:
+                        {   
+                            auto tmp = bus.read(location) + 1;
+                            setZN(tmp);
+                            bus.write(location, tmp);
+                        }
+                        break;
+                        default:
+                            return false;
+                    }
+                    return true;
+                    }   
+                return false;
+                };
+
+
                 bool CPU::executeType1(uint8_t opCode){
                     uint16_t location = 0; //Location of the operand, could be in RAM
                     auto op = static_cast<Operation1>((opCode & OperationMask) >> OperationShift);
