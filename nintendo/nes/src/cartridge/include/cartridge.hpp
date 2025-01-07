@@ -20,6 +20,7 @@ namespace Gemunin{
                         Rom(Log& log): log(log){};
                         bool loadRom(const std::string& filename);
                         const std::vector<uint8_t>& getROM();
+                        const std::vector<uint8_t>& getVROM();
                         uint8_t getMapper();
                     private:
                         Log& log;

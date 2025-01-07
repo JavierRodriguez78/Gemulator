@@ -17,11 +17,11 @@ namespace Gemunin{
             namespace Mappers{
                 class Mapper{
                     public:
-                        Mapper(Rom& cart, MapperType t, Log& log) : cartridge(cart), type(t), log(log) {};
+                        Mapper(Rom& cart, MapperType t, Log log) : cartridge(cart), type(t), log(log) {};
                         ~Mapper();
-                       // static std::unique_ptr<MapperType> createMapper (MapperType mapper_t, Rom& cart, std::function<void()> interrupt_cb, std::function<void(void)> mirroring_cb);
-                    private:
-                        Log& log;
+                        static std::unique_ptr<MapperType> createMapper (MapperType mapper_t, Rom& cart, std::function<void()> interrupt_cb, std::function<void(void)> mirroring_cb);
+                    protected:
+                        Log log;
                         Rom& cartridge;
                         MapperType type;
                 };

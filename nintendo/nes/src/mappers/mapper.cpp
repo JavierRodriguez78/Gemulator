@@ -6,7 +6,7 @@ namespace Gemunin{
     namespace Nintendo{
         namespace Nes{
             namespace Mappers{
-               /* std::unique_ptr<MapperType> Mapper::createMapper (MapperType mapper_t, Rom& cart, std::function<void()> interrupt_cb, std::function<void(void)> mirroring_cb){
+                std::unique_ptr<MapperType> Mapper::createMapper (MapperType mapper_t, Rom& cart, std::function<void()> interrupt_cb, std::function<void(void)> mirroring_cb){
                     
                     std::unique_ptr<MapperType> ret(nullptr);
                     
@@ -16,7 +16,11 @@ namespace Gemunin{
                             break;
                     }
                     return ret;
-                };*/
+                };
+
+                Mapper::~Mapper(){
+
+                };
             }
         }
     }

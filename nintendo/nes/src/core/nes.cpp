@@ -29,9 +29,8 @@ namespace Gemunin{
                     uint8_t mapperId = rom.getMapper();
                     log.AddLog("mapper-> "+ std::to_string(mapperId),Gemunin::Core::Logs::Level::INFO );
                     
-                    //Mapper::createMapper(static_cast<MapperType>(rom.getMapper()),
-                     //                   rom);
-                return true;
+                    //Mapper::createMapper(static_cast<MapperType>(rom.getMapper()), rom);
+                    return true;
                 };
 
                 bool Nes::Reset(){

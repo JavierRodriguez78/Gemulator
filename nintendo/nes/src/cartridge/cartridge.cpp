@@ -87,12 +87,20 @@ namespace Gemunin{
                     return true;
                 };
 
+                //Return ROM
                 const std::vector<uint8_t>& Rom::getROM()
                 {
-                    log.AddLog("PRG_ROM returnes", Gemunin::Core::Logs::Level::INFO);
+                    log.AddLog("PRG_ROM returned", Gemunin::Core::Logs::Level::INFO);
                     return PRG_ROM;
                 };
    
+                // Return VROM
+                 const std::vector<uint8_t>& Rom::getVROM(){
+                    log.AddLog("CHR_ROM returned", Gemunin::Core::Logs::Level::INFO);
+                    return CHR_ROM;
+                 };
+
+                //Return Mapper
                 uint8_t Rom::getMapper(){
                      return this->mapperNumber;
                 };
