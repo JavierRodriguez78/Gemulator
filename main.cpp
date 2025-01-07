@@ -38,8 +38,7 @@ int main(int argc, char* argv[]) {
 
     // Main Frame
     MainWindow mainWindow(eventManager);
-   
-    printf("Iniciando la ventana Principal\n");
+       printf("Iniciando la ventana Principal\n");
     
     //DialogLog
     DialogLog dialogLog(eventManager);

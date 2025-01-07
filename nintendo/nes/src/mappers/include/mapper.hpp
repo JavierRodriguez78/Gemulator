@@ -4,6 +4,7 @@
 #include <functional>
 #include "nameTableMirroring.hpp"
 #include "mapperType.hpp"
+#include "mapperNROM.hpp"
 #include "../../cartridge/include/cartridge.hpp"
 #include "../../../core/src/logs/include/logger.hpp"
 
@@ -19,7 +20,8 @@ namespace Gemunin{
                     public:
                         Mapper(Rom& cart, MapperType t, Log log) : cartridge(cart), type(t), log(log) {};
                         ~Mapper();
-                        static std::unique_ptr<MapperType> createMapper (MapperType mapper_t, Rom& cart, std::function<void()> interrupt_cb, std::function<void(void)> mirroring_cb);
+                        static std::unique_ptr<Mapper> createMapper (MapperType mapper_t, Rom& cart, std::function<void()> interrupt_cb, std::function<void(void)> mirroring_cb);
+                        virtual NameTableMirroring getNameTableMirroring();
                     protected:
                         Log log;
                         Rom& cartridge;

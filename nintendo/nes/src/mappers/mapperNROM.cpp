@@ -1,16 +1,12 @@
 #include "include/mapperNROM.hpp"
-#include "include/mapper.hpp"
-#include "include/mapperType.hpp"
-#include "../cartridge/include/cartridge.hpp"
 
-using namespace Gemunin::Nintendo::Nes::Cartridge;
 namespace Gemunin{
     namespace Nintendo{
         namespace Nes{
             namespace Mappers{
 
                 //Create NROM
-                MapperNROM::MapperNROM(Rom &cart, Log& log):Mapper(cart,MapperType::NROM,log),log(log){
+                MapperNROM::MapperNROM(Rom cart):Mapper(cart,MapperType::NROM,log){
                     
                     if (cart.getROM().size() == 0x4000) //1 bank
                     {

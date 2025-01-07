@@ -22,9 +22,11 @@ namespace Gemunin{
                         const std::vector<uint8_t>& getROM();
                         const std::vector<uint8_t>& getVROM();
                         uint8_t getMapper();
+                        uint8_t getNameTableMirroring();
                     private:
                         Log& log;
                         HeaderType headerType;
+                        uint8_t nameTableMirroring;
                         std::vector<uint8_t> PRG_ROM;
                         std::vector<uint8_t> CHR_ROM;
                         uint8_t mapperNumber;

@@ -19,6 +19,7 @@ namespace Gemunin{
                         CPU(Bus& bus);
                         ~CPU();
                         void reset();
+                        void interrupt(InterruptType interrupt);
                     
                     private:
                         Bus& bus;
@@ -36,7 +37,6 @@ namespace Gemunin{
 
                         //FUNCTIONS//
                         void setZeroNegative(uint8_t byte);
-                        void interrupt(InterruptType interrupt);
                         bool executeType0(uint8_t opCode);
                         bool executeType1(uint8_t opCode);
                         bool executeType2(uint8_t opCode);

@@ -48,6 +48,7 @@ set(NES_DIR ${CMAKE_SOURCE_DIR}/nintendo/nes/src)
 set(NES_FILES
     ${NES_DIR}/core/nes.cpp
     ${NES_DIR}/bus/bus.cpp
+    ${NES_DIR}/bus/pBus.cpp
     ${NES_DIR}/cpu/cpu.cpp
     ${NES_DIR}/mappers/mapper.cpp
     ${NES_DIR}/mappers/mapperNROM.cpp

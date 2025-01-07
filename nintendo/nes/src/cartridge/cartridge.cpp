@@ -1,7 +1,5 @@
 #include "include/cartridge.hpp"
-#include "../../../core/src/logs/include/logger.hpp"
 
-using namespace Gemunin::Core::Logs;
 
 namespace Gemunin{
     namespace Nintendo{
@@ -103,6 +101,11 @@ namespace Gemunin{
                 //Return Mapper
                 uint8_t Rom::getMapper(){
                      return this->mapperNumber;
+                };
+
+                //Return TableMirroring
+                uint8_t Rom::getNameTableMirroring(){
+                     return nameTableMirroring;
                 };
    
             }

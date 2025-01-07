@@ -1,5 +1,4 @@
 #include "include/cpu.hpp"
-#include "include/addrMode2.hpp"
 
 namespace Gemunin{
     namespace Nintendo{
@@ -13,6 +12,7 @@ namespace Gemunin{
                 const auto OperationShift = 5;
                 
                 CPU::CPU(Bus& bus): bus(bus){
+                    this->bus = bus;
                     reset();
                 };
 
