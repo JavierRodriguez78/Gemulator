@@ -4,12 +4,14 @@
 #include "../../core/src/events/include/eventManager.hpp"
 #include "../../core/src/logs/include/logger.hpp"
 #include "../../cpu/include/cpu.hpp"
+#include "../../ppu/include/ppu.hpp"
 #include "../../bus/include/bus.hpp"
 #include "../../bus/include/pBus.hpp"
 #include "../../cartridge/include/cartridge.hpp"
 
 using namespace Gemunin::Nintendo::Nes::Cartridge;
 using namespace Gemunin::Nintendo::Nes::Cpu;
+using namespace Gemunin::Nintendo::Nes::Ppu;
 using namespace Gemunin::Core::Logs;
 using namespace Gemunin::Nintendo::Nes::Comm;
 using namespace Gemunin::Nintendo::Nes::Mappers;
@@ -32,6 +34,7 @@ namespace Gemunin{
                         Bus bus;
                         PBus pBus;
                         CPU& cpu;
+                        PPU& ppu;
                 };
             }
         }

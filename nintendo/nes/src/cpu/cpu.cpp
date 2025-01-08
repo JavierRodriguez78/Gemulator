@@ -10,28 +10,34 @@ namespace Gemunin{
                 const auto AddrModeShift = 2;
                 const auto OperationMask = 0xe0;
                 const auto OperationShift = 5;
+                const auto ResetVector = 0xfffc;
                 
                 CPU::CPU(Bus& bus): bus(bus){
-                    reset();
+                   
                 };
 
                 CPU::~CPU(){
 
                 };
 
-
                 //Reset CPU
-                void CPU::reset(){
+                void CPU::reset()
+                {
+                    reset(readAddress(ResetVector));
+                }
+                
+                void CPU::reset(uint16_t start_addr){
                     //Limpiando los contadores de ciclo 
-                    cycles=skipCycles=0;
-                    //Limpiando registros
-                    rPC=0x8000;
+                    //cycles= 0;
+                    //skipCycles=0;
+                   //Limpiando registros
+                   /* rPC=0x8000;
                     rSP=0xFD;
                     rA=rX=rY=0;
                     rStatus= 0x34;
                     //Limpiando Flags
                     fI= true;
-                    fC=fD=fN=fV=fZ = false;
+                    fC=fD=fN=fV=fZ = false;*/
                 };
 
                 //Set Zero negative flags.

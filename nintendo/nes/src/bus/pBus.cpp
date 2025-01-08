@@ -11,8 +11,13 @@ namespace Gemunin{
                     mapper(nullptr),log(log){};
 
                 //Actualizando Mirroring.
-                void PBus::updateMirroring(){
-                    switch (mapper->getNameTableMirroring())
+                void PBus::updateMirroring(Rom cartridge_){
+                    if (!mapper)
+                    {
+                        log.AddLog("Mapper is nullptr", Level::ERROR);
+                        return;
+                    }
+                   switch (mapper->getNameTableMirroring(cartridge_))
                     {
                         case NameTableMirroring::Horizontal:
                             NameTable0 = NameTable1 = 0;
@@ -42,15 +47,16 @@ namespace Gemunin{
                     }
                 };
 
-                bool PBus::setMapper(Mapper *mapper)
+                bool PBus::setMapper(Rom cartridge_, Mapper *mapper_)
                 {
-                    if (!mapper)
+                    if (!mapper_)
                     {
                         log.AddLog("Mapper argument is nullptr", Level::ERROR);
                         return false;
                     }
-                    mapper = mapper;
-                   // updateMirroring();
+                    mapper = mapper_;
+                    log.AddLog("Set Mapper to " + std::to_string(reinterpret_cast<uintptr_t>(mapper)), Level::INFO);
+                    updateMirroring(cartridge_);
                     return true;
                 }
             }

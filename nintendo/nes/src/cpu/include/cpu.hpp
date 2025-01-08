@@ -19,6 +19,7 @@ namespace Gemunin{
                         CPU(Bus& bus);
                         ~CPU();
                         void reset();
+                        void reset(uint16_t start_addr);
                         void interrupt(InterruptType interrupt);
                     
                     private:

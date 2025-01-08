@@ -3,13 +3,14 @@ namespace Gemunin{
     namespace Nintendo{
         namespace Nes{
             namespace Core{
-                Nes::Nes(EventManager& eventManager, Log& log):eventManager(eventManager), log(log), cpu(cpu),bus(log), pBus(log), rom(log){
+                Nes::Nes(EventManager& eventManager, Log& log):eventManager(eventManager), log(log), cpu(cpu),ppu(ppu), bus(log), pBus(log), rom(log){
                     log.AddLog("Iniciando Nes",Gemunin::Core::Logs::Level::INFO );
                     this->eventManager = eventManager;
                     Bus bus(log);
                     PBus pBus(log);
                     Rom rom(log);
                     CPU cpu(bus);
+                    PPU ppu(pBus);
                 };
 
 
@@ -31,7 +32,7 @@ namespace Gemunin{
                     result_mapper = Mapper::createMapper(log, static_cast<MapperType>(rom.getMapper()),
                                         rom,
                                         [&](){ cpu.interrupt(InterruptType::IRQ); },
-                                        [&](){ pBus.updateMirroring(); });
+                                        [&](){ pBus.updateMirroring(rom); });
                 
                     if (!result_mapper)
                     {
@@ -40,8 +41,13 @@ namespace Gemunin{
                     }
 
                     if (!bus.setMapper(log, result_mapper.get()) ||
-                        !pBus.setMapper(result_mapper.get()))
+                        !pBus.setMapper(rom, result_mapper.get()))
                         return ;
+                    
+                    //Clean previus startup state
+                    log.AddLog("Reset CPU", Level::INFO);
+                    //cpu.reset();
+                    //this->ppu.reset();
                 };
             }
         }

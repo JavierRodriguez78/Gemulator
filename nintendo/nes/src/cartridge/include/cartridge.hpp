@@ -7,9 +7,11 @@
 #include "headerNes.hpp"
 #include "../../../core/src/events/include/eventManager.hpp"
 #include "../../../core/src/logs/include/logger.hpp"
+#include "../../mappers/include/nameTableMirroring.hpp"
 
 using namespace Gemunin::Core::Events;
 using namespace Gemunin::Core::Logs;
+using namespace Gemunin::Nintendo::Nes::Mappers;
 
 namespace Gemunin{
     namespace Nintendo{
@@ -17,7 +19,7 @@ namespace Gemunin{
             namespace Cartridge{
                 class Rom{
                     public:
-                        Rom(Log& log): log(log){};
+                        Rom(Log& log);
                         bool loadRom(const std::string& filename);
                         const std::vector<uint8_t>& getROM();
                         const std::vector<uint8_t>& getVROM();
@@ -31,6 +33,7 @@ namespace Gemunin{
                         std::vector<uint8_t> PRG_ROM;
                         std::vector<uint8_t> CHR_ROM;
                         uint8_t mapperNumber;
+                        bool extendedRAM;
                 };
             }
         }

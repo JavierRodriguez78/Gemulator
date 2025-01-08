@@ -29,8 +29,9 @@ namespace Gemunin{
                     
                 };
 
-                NameTableMirroring Mapper::getNameTableMirroring(){
-                    return static_cast<NameTableMirroring>(cartridge.getNameTableMirroring());
+                NameTableMirroring Mapper::getNameTableMirroring(Rom cartridge_){
+                    uint8_t mirroring = cartridge_.getNameTableMirroring();
+                    return static_cast<NameTableMirroring>(cartridge_.getNameTableMirroring());
                 };
                
             }

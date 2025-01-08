@@ -5,9 +5,16 @@ namespace Gemunin{
     namespace Nintendo{
         namespace Nes{
             namespace Cartridge{
+
+                Rom::Rom(Log& log):
+                    log(log),
+                    nameTableMirroring(0),
+                    mapperNumber(0),
+                    extendedRAM(false)
+                {};
+
+
                 bool Rom::loadRom(const std::string& filename) {
-                    
-                    
                     //Carga del fichero.
                     std::ifstream romFile(filename, std::ios_base::in |std::ios::binary);
                     iNesHeaderUnion header;               
@@ -59,6 +66,17 @@ namespace Gemunin{
                     }else if(headerType==v2){
                         prgSize = 16384 * header.v2.prgRomChunksLSB;  //TEMPORAL
                     };
+
+
+                    if(header.v1.flags6 & 0x8)
+                    {   
+                        log.AddLog("Four Screen mirroring",Level::INFO);
+                        nameTableMirroring = 8;
+                    }else{
+                        nameTableMirroring= header.v1.flags6 & 0x01;
+                        log.AddLog("Name Table mirroring: " + (nameTableMirroring=0)?"Horizontal":"Vertical",Level::INFO);
+                    };
+
 
                     // Leer PRG ROM
                     PRG_ROM.resize(prgSize);

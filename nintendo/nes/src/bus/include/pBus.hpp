@@ -17,8 +17,8 @@ namespace Gemunin{
                 class PBus{
                     public:
                         PBus(Log& log);
-                        bool setMapper(Mapper *mapper);
-                        void updateMirroring();
+                        bool setMapper(Rom cartridge_, Mapper *mapper);
+                        void updateMirroring(Rom cartridge_);
                     private:
                         std::size_t NameTable0, NameTable1, NameTable2, NameTable3; //indices where they start in RAM vector
                         std::vector<uint8_t> palette;
