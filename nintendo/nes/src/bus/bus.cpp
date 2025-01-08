@@ -4,7 +4,7 @@ namespace Gemunin{
     namespace Nintendo{
         namespace Nes{
             namespace Comm{
-                Bus::Bus(){
+                Bus::Bus(Log& log): log(log){
                     //Inicializamos la memoria.
                     ram.fill(0);
                 };
@@ -20,6 +20,20 @@ namespace Gemunin{
                 void Bus::write(uint16_t addr, uint8_t value){
                 
                 }
+
+                bool Bus::setMapper(Log log, Mapper* mapper){
+                    mapper = mapper;
+                    if (!mapper)
+                    {
+                        log.AddLog("Mapper pointer is nullptr", Level::ERROR);
+                        return false;
+                    }
+
+                    if (mapper->hasExtendedRAM())
+                        extRAM.resize(0x2000);
+
+                    return true;
+                };
             }
         }
     }

@@ -41,6 +41,18 @@ namespace Gemunin{
                             log.AddLog("Unsupported Name Table mirroring",Level::INFO);
                     }
                 };
+
+                bool PBus::setMapper(Mapper *mapper)
+                {
+                    if (!mapper)
+                    {
+                        log.AddLog("Mapper argument is nullptr", Level::ERROR);
+                        return false;
+                    }
+                    mapper = mapper;
+                   // updateMirroring();
+                    return true;
+                }
             }
         }
     }

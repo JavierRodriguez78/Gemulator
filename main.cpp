@@ -48,8 +48,8 @@ int main(int argc, char* argv[]) {
     //Iniciando Emulador de Nes    
     Nes nes(eventManager, log);
     nes.LoadRom("./nestest.nes");
-   // nes.Reset();
-   // nes.Start();
+    nes.Reset();
+    nes.Run();
     
     // Main loop
     bool done = false;

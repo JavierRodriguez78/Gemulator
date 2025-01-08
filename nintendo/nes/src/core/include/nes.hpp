@@ -23,10 +23,11 @@ namespace Gemunin{
                         Nes(EventManager& eventmanager, Log& log);
                         bool LoadRom(const std::string& filename);
                         bool Reset();
-                        void Start();
+                        void Run();
                     private:
                         std::unique_ptr<Mapper> result_mapper;
                         EventManager& eventManager;
+                        Rom rom;
                         Log& log;
                         Bus bus;
                         PBus pBus;

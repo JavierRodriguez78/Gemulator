@@ -8,6 +8,7 @@
 #include "../../../core/src/logs/include/logLevel.hpp"
 
 using namespace Gemunin::Nintendo::Nes::Mappers;
+using namespace Gemunin::Core::Logs;
 
 namespace Gemunin{
     namespace Nintendo{
@@ -16,6 +17,7 @@ namespace Gemunin{
                 class PBus{
                     public:
                         PBus(Log& log);
+                        bool setMapper(Mapper *mapper);
                         void updateMirroring();
                     private:
                         std::size_t NameTable0, NameTable1, NameTable2, NameTable3; //indices where they start in RAM vector

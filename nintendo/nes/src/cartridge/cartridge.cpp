@@ -107,6 +107,13 @@ namespace Gemunin{
                 uint8_t Rom::getNameTableMirroring(){
                      return nameTableMirroring;
                 };
+
+                //Return if has extended RAM
+                bool Rom::hasExtendedRAM()
+                {
+                    // Some ROMs don't have this set correctly, plus there's no particular reason to disable it.
+                    return true;
+                };
    
             }
         }

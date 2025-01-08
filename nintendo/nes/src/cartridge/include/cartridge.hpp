@@ -23,6 +23,7 @@ namespace Gemunin{
                         const std::vector<uint8_t>& getVROM();
                         uint8_t getMapper();
                         uint8_t getNameTableMirroring();
+                        bool hasExtendedRAM();
                     private:
                         Log& log;
                         HeaderType headerType;

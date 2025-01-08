@@ -12,7 +12,6 @@ namespace Gemunin{
                 const auto OperationShift = 5;
                 
                 CPU::CPU(Bus& bus): bus(bus){
-                    this->bus = bus;
                     reset();
                 };
 

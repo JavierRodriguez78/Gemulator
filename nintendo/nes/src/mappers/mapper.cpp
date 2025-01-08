@@ -32,6 +32,7 @@ namespace Gemunin{
                 NameTableMirroring Mapper::getNameTableMirroring(){
                     return static_cast<NameTableMirroring>(cartridge.getNameTableMirroring());
                 };
+               
             }
         }
     }
