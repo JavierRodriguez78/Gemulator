@@ -23,7 +23,7 @@ namespace Gemunin{
                 //Reset CPU
                 void CPU::reset()
                 {
-                    reset(readAddress(ResetVector));
+                   reset(readAddress(ResetVector));
                 }
                 
                 void CPU::reset(uint16_t start_addr){
@@ -354,7 +354,9 @@ namespace Gemunin{
                 };
 
                 uint16_t CPU::readAddress(uint16_t address){
-                    return bus.read(address) | bus.read(address + 1) << 8;
+                       return 0x0000;
+                       //return bus.read(address) << 8 ;
+                       // return bus.read(address) | bus.read(address + 1) << 8;
                 };
 
                 void CPU::setPageCrossed(uint16_t a, uint16_t b, int inc){

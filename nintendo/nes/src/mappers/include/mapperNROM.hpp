@@ -15,8 +15,8 @@ namespace Gemunin{
                 class MapperNROM: public Mapper{
                     public:
                         MapperNROM(Rom cartridge);
-                    /*   uint8_t readPRG(uint16_t addr);
-                        void writePRG (uint16_t addr, uint8_t value);
+                         uint8_t readPRG(uint16_t addr);
+                    /*    void writePRG (uint16_t addr, uint8_t value);
                         uint8_t readCHR(uint16_t addr);
                         void writeCHR(uint16_t addr, uint8_t value);
                     */

@@ -25,7 +25,7 @@ namespace Gemunin{
                     else
                         usesCharacterRAM = false;
                 };
-/*
+
                 //Read PROGRAM NROM
                 uint8_t MapperNROM::readPRG(uint16_t addr){
                     if (!oneBank)
@@ -33,7 +33,7 @@ namespace Gemunin{
                     else //mirrored
                         return cartridge.getROM()[(addr - 0x8000) & 0x3fff];
                 }
-
+    /*
                 //Write PROGRAM 
                 void MapperNROM::writePRG (uint16_t addr, uint8_t value){
                     log.AddLog("ROM memory write attempt at: "+std::to_string(addr)+" to set " +std::to_string(value), Gemunin::Core::Logs::Level::INFO);

@@ -3,7 +3,6 @@ namespace Gemunin{
     namespace Nintendo{
         namespace Nes{
             namespace Mappers{
-
                 //Create MMC3
                 MapperMMC3ROM::MapperMMC3ROM(Rom &cart, std::function<void()> interrupt_cb, std::function<void(void)> mirroring_cb) :
                     Mapper(cart, MapperType::MMC3),
@@ -35,6 +34,36 @@ namespace Gemunin{
                     chrBanks[3] = cart.getVROM().size() - 0x800;
                 };
 
+                uint8_t MapperMMC3ROM::readPRG(uint16_t addr)
+                {
+                    if (addr >= 0x6000 && addr <= 0x7FFF)
+                    {
+                        return  prgRam[addr & 0x1fff];
+                    }
+                    if (addr >= 0x8000 && addr <= 0x9FFF)
+                    {
+                        return *(prgBank0 + (addr & 0x1fff));
+                    }
+
+                    if (addr >= 0xA000 && addr <= 0xBFFF)
+                    {
+                        return   *(prgBank1 + (addr & 0x1fff));
+                    }
+
+                    if (addr >= 0xC000 && addr <= 0xDFFF)
+                    {
+                        return *(prgBank2 + (addr & 0x1fff));
+                    }
+
+                    if (addr >= 0xE000)
+                    {
+                        return *(prgBank3  +  (addr & 0x1fff));
+                    }
+
+                return 0;       
+             
+
+                };
             }
         }
     }

@@ -12,6 +12,7 @@ namespace Gemunin{
                     public:
                         MapperMMC3ROM();
                         MapperMMC3ROM(Rom &cart, std::function<void()> interrupt_cb, std::function<void(void)> mirroring_cb);  
+                        uint8_t readPRG(uint16_t addr);
                     private:
                         uint32_t targetRegister;
                         bool prgBankMode;

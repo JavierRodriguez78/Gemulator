@@ -19,6 +19,7 @@ namespace Gemunin{
                         Mapper(Rom cartridge,  MapperType t) : cartridge(cartridge), type(t) {};
                         static std::unique_ptr<Mapper> createMapper (Log log, MapperType mapper_t, Rom& cart, std::function<void()> interrupt_cb, std::function<void(void)> mirroring_cb);
                         virtual NameTableMirroring getNameTableMirroring(Rom cartridge_);
+                        virtual uint8_t readPRG (uint16_t addr) = 0;
                         bool setMapper(Log log, Mapper* mapper);
                         bool inline hasExtendedRAM()
                         {

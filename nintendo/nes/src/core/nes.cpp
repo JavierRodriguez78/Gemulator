@@ -46,8 +46,8 @@ namespace Gemunin{
                     
                     //Clean previus startup state
                     log.AddLog("Reset CPU", Level::INFO);
-                    //cpu.reset();
-                    //this->ppu.reset();
+                    cpu.reset();
+                    //ppu.reset();
                 };
             }
         }

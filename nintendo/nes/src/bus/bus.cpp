@@ -4,18 +4,57 @@ namespace Gemunin{
     namespace Nintendo{
         namespace Nes{
             namespace Comm{
-                Bus::Bus(Log& log): log(log){
+                Bus::Bus(Log& log): log(log),
                     //Inicializamos la memoria.
-                    ram.fill(0);
-                };
+                    ram(0x800, 0),
+                    mapper(nullptr)
+                    {};
 
                 uint8_t Bus::read(uint16_t address){
+                    log.AddLog("Read Access Atempt: "+address, Level::INFO);
                     //Mirroring de Ram.
-                    if (address < 0x2000) return ram[address % 0x0800];
-                    //PRG ROM
-                    if( address >= 0x8000) return pgr_rom[address - 0x8000];
-                    return 0;
-                };
+                    if (address < 0x2000) 
+                        return ram[address % 0x77f];
+                    else if( address < 0x4020)
+                    {
+                        if (address < 0x4000) //PPU
+                        {
+                            auto it = readCallbacks.find(static_cast<IORegisters>(address & 0x2007));
+                            if ( it != readCallbacks.end())
+                                return it->second();
+                            else
+                                log.AddLog("No Callback Registered for I/O register at: "+address, Level::WARNING);
+                        }
+                        else if(address<0x4018 && address >= 0x4014)
+                        {
+                            auto it = readCallbacks.find(static_cast<IORegisters>(address));
+                            if( it!=readCallbacks.end())
+                                return it->second();
+                            else
+                                log.AddLog("No Callback Registered for I/O register at: "+address, Level::WARNING);
+                        }
+                        else
+                            log.AddLog("Read Access Atempt: "+address, Level::WARNING);
+                        }   
+                        else if (address < 0x6000)
+                        {
+                            log.AddLog("Expansion ROM read ateempted. This is currently unsupported: "+address, Level::WARNING);
+
+                        }
+                        else if (address < 0x8000)
+                        { 
+                            if (mapper->hasExtendedRAM())
+                            {
+                                return extRAM[address - 0x6000];
+                            }
+                        }
+                        else {
+                            return mapper->readPRG(address);
+                        }
+                        return 0;
+                }; 
+                    
+                
 
                 void Bus::write(uint16_t addr, uint8_t value){
                 
