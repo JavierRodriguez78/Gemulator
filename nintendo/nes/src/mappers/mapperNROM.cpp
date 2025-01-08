@@ -6,9 +6,9 @@ namespace Gemunin{
             namespace Mappers{
 
                 //Create NROM
-                MapperNROM::MapperNROM(Rom cart):Mapper(cart,MapperType::NROM,log){
+                MapperNROM::MapperNROM(Rom cartridge):Mapper(cartridge,MapperType::NROM){
                     
-                    if (cart.getROM().size() == 0x4000) //1 bank
+                    if (cartridge.getROM().size() == 0x4000) //1 bank
                     {
                         oneBank = true;
                     }else //2 banks
@@ -16,16 +16,16 @@ namespace Gemunin{
                         oneBank = false;
                     }
 
-                    if (cart.getVROM().size() == 0)
+                    if (cartridge.getVROM().size() == 0)
                     {
                         usesCharacterRAM = true;
                         characterRAM.resize(0x2000);
-                        log.AddLog("Uses CharacterRam", Gemunin::Core::Logs::Level::INFO);
+                       // log.AddLog("Uses CharacterRam", Gemunin::Core::Logs::Level::INFO);
                     }
                     else
                         usesCharacterRAM = false;
                 };
-
+/*
                 //Read PROGRAM NROM
                 uint8_t MapperNROM::readPRG(uint16_t addr){
                     if (!oneBank)
@@ -54,7 +54,7 @@ namespace Gemunin{
                         characterRAM[addr] = value;
                     else
                         log.AddLog("Read-only CHR memory write attempt at "+std::to_string(addr) );
-                }
+                }*/
             }
         }
     }

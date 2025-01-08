@@ -6,6 +6,7 @@
 #include "../../cpu/include/cpu.hpp"
 #include "../../bus/include/bus.hpp"
 #include "../../bus/include/pBus.hpp"
+#include "../../cartridge/include/cartridge.hpp"
 
 using namespace Gemunin::Nintendo::Nes::Cartridge;
 using namespace Gemunin::Nintendo::Nes::Cpu;
@@ -24,7 +25,7 @@ namespace Gemunin{
                         bool Reset();
                         void Start();
                     private:
-                        std::unique_ptr<Mapper> mapper;
+                        std::unique_ptr<Mapper> result_mapper;
                         EventManager& eventManager;
                         Log& log;
                         Bus bus;
