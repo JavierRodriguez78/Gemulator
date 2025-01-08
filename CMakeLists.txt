@@ -52,6 +52,7 @@ set(NES_FILES
     ${NES_DIR}/cpu/cpu.cpp
     ${NES_DIR}/mappers/mapper.cpp
     ${NES_DIR}/mappers/mapperNROM.cpp
+    ${NES_DIR}/mappers/mapperMMC3ROM.cpp
     ${NES_DIR}/cartridge/cartridge.cpp)
 
 # Incluir los directorios de cabeceras de ImGui y gl3w

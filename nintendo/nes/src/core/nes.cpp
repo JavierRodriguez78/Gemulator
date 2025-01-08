@@ -18,8 +18,7 @@ namespace Gemunin{
                     rom.loadRom(filename);
                     uint8_t mapperId = rom.getMapper();
                     log.AddLog("mapper-> "+ std::to_string(mapperId),Gemunin::Core::Logs::Level::INFO );
-                  
-                    result_mapper = Mapper::createMapper(static_cast<MapperType>(rom.getMapper()),
+                    result_mapper = Mapper::createMapper(log, static_cast<MapperType>(rom.getMapper()),
                                         rom,
                                         [&](){ cpu.interrupt(InterruptType::IRQ); },
                                         [&](){ pBus.updateMirroring(); });
