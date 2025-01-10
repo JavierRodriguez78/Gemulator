@@ -3,14 +3,8 @@ namespace Gemunin{
     namespace Nintendo{
         namespace Nes{
             namespace Core{
-                Nes::Nes(EventManager& eventManager, Log& log):eventManager(eventManager), log(log), cpu(cpu),ppu(ppu), bus(log), pBus(log), rom(log){
+                Nes::Nes(EventManager& eventManager, Log& log):eventManager(eventManager), log(log), bus(log), pBus(log), rom(log), cpu(bus),ppu(pBus){
                     log.AddLog("Iniciando Nes",Gemunin::Core::Logs::Level::INFO );
-                    this->eventManager = eventManager;
-                    Bus bus(log);
-                    PBus pBus(log);
-                    Rom rom(log);
-                    CPU cpu(bus);
-                    PPU ppu(pBus);
                 };
 
 
@@ -46,8 +40,9 @@ namespace Gemunin{
                     
                     //Clean previus startup state
                     log.AddLog("Reset CPU", Level::INFO);
-                    cpu.reset();
+                    //cpu.reset();
                     //ppu.reset();
+                    cpu.step();
                 };
             }
         }

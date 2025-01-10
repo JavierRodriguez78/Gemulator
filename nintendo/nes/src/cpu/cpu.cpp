@@ -11,6 +11,8 @@ namespace Gemunin{
                 const auto OperationMask = 0xe0;
                 const auto OperationShift = 5;
                 const auto ResetVector = 0xfffc;
+                const auto NMIVector = 0xfffa;
+                const auto IRQVector = 0xfffe;
                 
                 CPU::CPU(Bus& bus): bus(bus){
                    
@@ -28,17 +30,97 @@ namespace Gemunin{
                 
                 void CPU::reset(uint16_t start_addr){
                     //Limpiando los contadores de ciclo 
-                    //cycles= 0;
-                    //skipCycles=0;
+                    cycles= 0;
+                    skipCycles=0;
                    //Limpiando registros
-                   /* rPC=0x8000;
+                    rPC=0x8000;
                     rSP=0xFD;
                     rA=rX=rY=0;
                     rStatus= 0x34;
                     //Limpiando Flags
                     fI= true;
-                    fC=fD=fN=fV=fZ = false;*/
+                    fC=fD=fN=fV=fZ = false;
                 };
+
+                void CPU::step(){
+                    ++cycles;
+                    if (skipCycles-- > 1)
+                        return;
+                    skipCycles = 0; 
+                     // NMI has higher priority, check for it first
+                    if (pendingNMI)
+                    {
+                        interruptSequence(InterruptType::NMI);
+                        pendingNMI = pendingIRQ = false;
+                        return;
+                    }
+                    else if(pendingIRQ)
+                    {
+                        interruptSequence(InterruptType::IRQ);
+                        pendingNMI =pendingIRQ = false;
+                        return;
+                    };
+                    int psw =    fN << 7 |
+                     fV << 6 |
+                       1 << 5 |
+                     fD << 3 |
+                     fI << 2 |
+                     fZ << 1 |
+                     fC;
+                    
+                    uint8_t opcode = bus.read(rPC++);
+                    auto CycleLength = OperationCycles[opcode];
+                    if (CycleLength && (executeType1(opcode) || executeType2(opcode) || executeType0(opcode)))
+                    {
+                        skipCycles += CycleLength;
+                        //cycles %= 340; //compatibility with Nintendulator log
+                        //skipCycles = 0; //for TESTING
+                    }
+                    else
+                    {
+                        //LOG(Error) << "Unrecognized opcode: " << std::hex << +opcode << std::endl;
+                    }
+
+                };
+
+                void CPU::interruptSequence(InterruptType type){
+                    if (fI && type != InterruptType::NMI && type != InterruptType::BRK_)
+                        return;
+                    if (type == InterruptType::BRK_) //Add one if BRK, a quirk of 6502
+                        ++rPC;
+                    pushStack(rPC >> 8);
+                    pushStack(rPC);
+
+                    uint8_t flags = fN << 7 |
+                        fV << 6 |
+                        1 << 5 | //unused bit, supposed to be always 1
+                        (type == InterruptType::BRK_) << 4 | //B flag set if BRK
+                        fD << 3 |
+                        fI << 2 |
+                        fZ << 1 |
+                        fC;
+                    pushStack(flags);
+                    fI = true;
+                    switch (type)
+                    {
+                        case InterruptType::IRQ:
+                        case InterruptType::BRK_:
+                        rPC = readAddress(IRQVector);
+                        break;
+                        case InterruptType::NMI:
+                        rPC = readAddress(NMIVector);
+                        break;
+                    }
+                    // Interrupt sequence takes 7
+                    skipCycles += 7;
+                }
+
+                // Ejecución Push Stack
+                void CPU::pushStack(uint8_t value)
+                {
+                    bus.write(0x100 | rSP, value);
+                    --rSP; //Hardware stacks grow downward!
+                }
 
                 //Set Zero negative flags.
                 void CPU::setZeroNegative(uint8_t byte){
@@ -354,9 +436,7 @@ namespace Gemunin{
                 };
 
                 uint16_t CPU::readAddress(uint16_t address){
-                       return 0x0000;
-                       //return bus.read(address) << 8 ;
-                       // return bus.read(address) | bus.read(address + 1) << 8;
+                       return bus.read(address) | bus.read(address + 1) << 8;
                 };
 
                 void CPU::setPageCrossed(uint16_t a, uint16_t b, int inc){

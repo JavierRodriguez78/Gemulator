@@ -21,6 +21,7 @@ namespace Gemunin{
                         void reset();
                         void reset(uint16_t start_addr);
                         void interrupt(InterruptType interrupt);
+                        void step();
                     
                     private:
                         Bus& bus;
@@ -36,7 +37,11 @@ namespace Gemunin{
                         int skipCycles;
                         int cycles;
 
+                       
+
                         //FUNCTIONS//
+                        void interruptSequence(InterruptType type);
+                        void pushStack(uint8_t value);
                         void setZeroNegative(uint8_t byte);
                         bool executeType0(uint8_t opCode);
                         bool executeType1(uint8_t opCode);

@@ -33,8 +33,8 @@ namespace Gemunin{
                         Log& log;
                         Bus bus;
                         PBus pBus;
-                        CPU& cpu;
-                        PPU& ppu;
+                        CPU cpu;
+                        PPU ppu;
                 };
             }
         }

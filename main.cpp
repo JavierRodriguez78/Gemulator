@@ -50,7 +50,6 @@ int main(int argc, char* argv[]) {
     nes.LoadRom("./nestest.nes");
     nes.Reset();
     nes.Run();
-    
     // Main loop
     bool done = false;
     while (!done) {
@@ -60,6 +59,7 @@ int main(int argc, char* argv[]) {
             if (event.type == SDL_QUIT)
                 done = true;
         }
+        
         mainWindow.Draw();
         dialogLog.Draw("Console Logs", &show_dialog);
         // Renderizar

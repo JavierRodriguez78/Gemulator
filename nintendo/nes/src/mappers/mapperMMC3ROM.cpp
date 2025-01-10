@@ -36,7 +36,7 @@ namespace Gemunin{
 
                 uint8_t MapperMMC3ROM::readPRG(uint16_t addr)
                 {
-                    if (addr >= 0x6000 && addr <= 0x7FFF)
+                  /*  if (addr >= 0x6000 && addr <= 0x7FFF)
                     {
                         return  prgRam[addr & 0x1fff];
                     }
@@ -58,7 +58,7 @@ namespace Gemunin{
                     if (addr >= 0xE000)
                     {
                         return *(prgBank3  +  (addr & 0x1fff));
-                    }
+                    }*/
 
                 return 0;       
              

@@ -11,14 +11,18 @@ namespace Gemunin{
                     {};
 
                 uint8_t Bus::read(uint16_t address){
-                    log.AddLog("Read Access Atempt: "+address, Level::INFO);
+                    log.AddLog("Read Access Bus Atempt: "+ std::to_string(address), Level::INFO);
                     //Mirroring de Ram.
-                    if (address < 0x2000) 
-                        return ram[address % 0x77f];
-                    else if( address < 0x4020)
+                  /*  if (address < 0x2000) {
+                        log.AddLog("Read Address Atempt <0x2000: "+ std::to_string(address), Level::INFO);
+                        return ram[address % 0x7ff];
+                    } else if( address < 0x4020)
                     {
+                        log.AddLog("Read Address Atempt <0x4020: "+ std::to_string(address), Level::INFO);
+                        
                         if (address < 0x4000) //PPU
                         {
+                            
                             auto it = readCallbacks.find(static_cast<IORegisters>(address & 0x2007));
                             if ( it != readCallbacks.end())
                                 return it->second();
@@ -35,13 +39,14 @@ namespace Gemunin{
                         }
                         else
                             log.AddLog("Read Access Atempt: "+address, Level::WARNING);
-                        }   
+                            
+                        }  
                         else if (address < 0x6000)
                         {
                             log.AddLog("Expansion ROM read ateempted. This is currently unsupported: "+address, Level::WARNING);
-
+                            
                         }
-                        else if (address < 0x8000)
+                         else if (address < 0x8000)
                         { 
                             if (mapper->hasExtendedRAM())
                             {
@@ -50,8 +55,10 @@ namespace Gemunin{
                         }
                         else {
                             return mapper->readPRG(address);
-                        }
-                        return 0;
+                        };*/
+                        log.AddLog("No ha entrado en ninguna "+ std::to_string(address), Level::INFO);
+                       return 0;
+                        
                 }; 
                     
                 
