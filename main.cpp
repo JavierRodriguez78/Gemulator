@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
         
     //Iniciando Emulador de Nes    
     Nes nes(eventManager, log);
-    nes.LoadRom("./nestest.nes");
+    nes.LoadRom("./SuperMario.nes");
     nes.Reset();
     nes.Run();
     // Main loop

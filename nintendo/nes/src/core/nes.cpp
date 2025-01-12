@@ -43,6 +43,7 @@ namespace Gemunin{
                     //cpu.reset();
                     //ppu.reset();
                     cpu.step();
+                    ppu.step();
                 };
             }
         }

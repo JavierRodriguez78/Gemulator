@@ -25,7 +25,8 @@ namespace Gemunin{
                         {
                             return cartridge.hasExtendedRAM();
                         }
-
+                        virtual void scanlineIRQ(){}
+                        virtual uint8_t readCHR (uint16_t addr) = 0;
 
                     protected:
                         Rom& cartridge;

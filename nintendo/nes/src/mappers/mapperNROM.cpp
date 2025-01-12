@@ -33,10 +33,10 @@ namespace Gemunin{
                     else //mirrored
                         return cartridge.getROM()[(addr - 0x8000) & 0x3fff];
                 }
-    /*
+    
                 //Write PROGRAM 
                 void MapperNROM::writePRG (uint16_t addr, uint8_t value){
-                    log.AddLog("ROM memory write attempt at: "+std::to_string(addr)+" to set " +std::to_string(value), Gemunin::Core::Logs::Level::INFO);
+                    //log.AddLog("ROM memory write attempt at: "+std::to_string(addr)+" to set " +std::to_string(value), Gemunin::Core::Logs::Level::INFO);
                 };
 
                 // Read CHR Rom
@@ -52,9 +52,9 @@ namespace Gemunin{
                     
                     if (usesCharacterRAM)
                         characterRAM[addr] = value;
-                    else
-                        log.AddLog("Read-only CHR memory write attempt at "+std::to_string(addr) );
-                }*/
+                    //else
+                      //  log.AddLog("Read-only CHR memory write attempt at "+std::to_string(addr) );
+                };
             }
         }
     }

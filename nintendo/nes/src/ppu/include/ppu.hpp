@@ -13,10 +13,19 @@ namespace Gemunin{
     namespace Nintendo{
         namespace Nes{
             namespace Ppu{
+                const int ScanlineCycleLength = 341;
+                const int ScanlineEndCycle = 340;
+                const int VisibleScanlines = 240;
+                const int ScanlineVisibleDots = 256;
+                const int FrameEndScanline = 261;
+
+                const int AttributeOffset = 0x3C0;
+                
                 class PPU{
                     public:
                         PPU(PBus& bus);
                         void reset();
+                        void step();
                     private:
                         PBus& pBus;
                         int cycle;
@@ -49,6 +58,11 @@ namespace Gemunin{
                         std::vector<uint8_t> scanlineSprites;
 
                         PPUState pipelineState;
+                        std::vector<uint8_t> spriteMemory;
+                    //    std::vector<std::vector<sf::Color>> m_pictureBuffer;
+
+                        //Functions
+                        uint8_t read(uint16_t addr);
                 };
             }
         }

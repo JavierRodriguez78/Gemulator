@@ -64,7 +64,45 @@ namespace Gemunin{
              
 
                 };
-            }
+            };
+
+            void MapperMMC3ROM::scanlineIRQ(){
+                bool zeroTransition = false;
+                if (irqCounter == 0 || irqReloadPending)
+                {
+                    irqCounter = irqLatch;
+                    // zeroTransition = m_irqReloadPending;
+                    irqReloadPending = false;
+                }
+                else
+                {
+                    irqCounter--;
+                    zeroTransition = irqCounter == 0;
+                }   
+                if(zeroTransition && irqEnabled)
+                {
+                    interruptCallback();
+                }
+            };
+             
+            uint8_t MapperMMC3ROM::readCHR(uint16_t addr)
+            {
+                if (addr < 0x1fff)
+                {
+                    // select 1kb bank
+                    const auto bankSelect = addr >> 10;
+                    // get the configured base address for the bank
+                    const auto baseAddress = chrBanks[bankSelect];
+                    const auto offset = addr & 0x3ff;
+                    return cartridge.getVROM()[baseAddress + offset];
+                }
+                else if (addr <= 0x2fff)
+                {
+                    return mirroringRam[addr-0x2000];
+                }
+
+                return 0;
+            };
         }
     }
 }

@@ -19,6 +19,9 @@ namespace Gemunin{
                         PBus(Log& log);
                         bool setMapper(Rom cartridge_, Mapper *mapper);
                         void updateMirroring(Rom cartridge_);
+                        void scanlineIRQ();
+                        uint8_t read(uint16_t addr);
+                        uint8_t readPalette(uint8_t paletteAddr);
                     private:
                         std::size_t NameTable0, NameTable1, NameTable2, NameTable3; //indices where they start in RAM vector
                         std::vector<uint8_t> palette;
